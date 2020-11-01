@@ -1,0 +1,28 @@
+* {
+ color: khaki;
+}
+
+p {
+ color: black;
+}
+
+#heading {
+ color: red;
+}
+
+.bg {
+ background: black;
+}
+
+.footer {
+ color: green;
+}
+
+.division {
+ font-size: 5pt;
+ text-transform: uppercase;
+}
+
+body {
+ font-family: "Computer Modern Serif", serif;
+}
