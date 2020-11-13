@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+   id="MathJax-script"
+   async
+   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  ></script>
+  <script>
+   window.MathJax = { tex: { tags: "ams" } };
+  </script>
+
+  <title>The Poisson distribution and nuclear counting statistics</title>
+ </head>
+ <body>
+  <h1>The Poisson distribution and nuclear counting statistics</h1>
+  The goal of this page is to explain how the uncertainty on counting statistics
+  is linked to the Poisson distribution. More specifically, if you count \(\mu\)
+  radioactive decays in a certain time, then the uncertainty of that count is
+  given by \(\sqrt{\mu}\). To get to this result, we will first derive the
+  Poisson distribution from the binomial distribution and we will then apply the
+  Poisson distribution to the decay of radioactive atoms.
+  <h2>Derivation of the Poisson distribution</h2>
+  <p>
+   The Poisson distribution can be deduced from the binomial distribution.
+   Consider a stochastic variable \(X\) that is binomially distributed with
+   \(n\) draws and a success rate \(p\).
+  </p>
+  $$X \sim \mathcal{B}(n,p)$$
+  <p>
+   The probability \(P(X=x)\) that \(x\) out of \(n\) trials are successful is
+   given by
+  </p>
+  $$P(X=x) =\frac{n!}{x!(n-x)!} p^x (1-p)^{n-x} $$
+  <p>Defining the parameter \(\mu\) as</p>
+  $$\mu \triangleq p \cdot n$$
+  <p>the probability becomes</p>
+  $$P(X=x) =\frac{n!}{x!(n-x)!} \Big(\frac{\mu}{n}\Big)^x
+  \Big(1-\frac{\mu}{n}\Big)^{n-x} = \frac{n!}{x!(n-x)!} \frac{\mu^x}{n^x}
+  \Big(1-\frac{\mu}{n}\Big)^{n} \Big(1-\frac{\mu}{n}\Big)^{-x}$$
+  <p>
+   The Poisson distribution can be obtained by taking the limit of this
+   expression for \(n \to \infty\). Note that this assumption is usually valid
+   when we work with nuclear decay as a sample of a certain radionuclide will
+   contain many atoms.
+  </p>
+  \begin{equation} 
+    \lim_{n \to \infty} P(X=x) = \frac{\mu^x}{x!} \lim_{n \to
+    \infty} \frac{n!}{(n-x)!n^x} \Big(1-\frac{\mu}{n}\Big)^{n}
+    \Big(1-\frac{\mu}{n}\Big)^{-x} 
+    \label{eq:limit} 
+  \end{equation}
+  <p>The first factor converges to 1 as \(n \to \infty\).</p>
+  $$\lim_{n \to \infty} \frac{n!}{(n-x)!n^x} = \lim_{n \to \infty} \frac{n \cdot
+  (n-1) \ldots (n-x+1)}{n \cdot n \ldots n} = \lim_{n \to \infty} \frac{n}{n}
+  \cdot \lim_{n \to \infty} \frac{n-1}{n} \ldots \lim_{n \to \infty}
+  \frac{n-x+1}{n} = 1$$
+  <p>The second factor resembles the definition of \(e\).</p>
+  $$\lim_{n \to \infty} \Big(1-\frac{\mu}{n}\Big)^{n} = \Big[ \lim_{n \to
+  \infty} \Big(1+\frac{1}{-\frac{n}{\mu}}\Big)^{-\frac{n}{\mu}} \Big]^{-\mu} =
+  e^{-\mu}$$
+  <p>The third factor simply converges 1.</p>
+  $$\lim_{n \to \infty} \Big(1-\frac{\mu}{n}\Big)^{-x} = 1^{-x} = 1$$
+  <p>Equation \eqref{eq:limit} then becomes</p>
+  $$\lim_{n \to \infty} P(X=x) = \frac{\mu^x e^{-\mu}}{x!}$$
+  <p>This distribution is called the Poisson distribution.</p>
+  $$\boxed{X \sim \text{Pois}(\mu) \rightarrow P(X=x) = \frac{\mu^x
+  e^{-\mu}}{x!}}$$ \
+  <h2>Expected value and variance of the Poisson distribution</h2>
+  <p>The expected value and variance of the Poisson distribution are</p>
+  \begin{align*} 
+    E\{X\} &= \mu \\ 
+    \mathrm{Var}\{X\} &= \mu 
+  \end{align*}
+
+  <h2>Poisson distribution applied to radioactive decay</h2>
+  <p>
+   Let's assume that we have a sample of \(n\) radioactive atoms. \(p\) is the
+   probability that 1 atom decays in a certain time \(T\).
+  </p>
+  \begin{align*} 
+    &n = \text{number of atoms in sample}\\ &p = \text{probability that 1 atom decays in a certain time } T \\ 
+    &\mu = n \cdot p
+  \end{align*}
+  <p>
+   Assuming that \(n\) is very large, we can use the Poisson distribution to
+   model the decay of the sample.
+  </p>
+  $$\text{Number of decays in time } T = X \sim \text{Pois}(\mu)$$
+  <p>
+   If we repeat the experiment many times (keeping the time \(T\) constant), we
+   will expect the average number of decays to be \(\mu\) with variance \(\mu\).
+   This is because the expected value and variance of the distribution are equal
+   to \(\mu\).
+  </p>
+  <p>
+   In real life, we only perform 1 experiment in a certain time \(T\). After
+   all, if you perform 100 experiment with time \(T\), you might as well combine
+   those 100 experiments into 1 big experiment with time \(100T\). Thus, when we
+   count the number of decays, we will be close to the actual value \(\mu\), but
+   there will be some deviation.
+  </p>
+  $$\text{draw a certain value from } X \rightarrow \hat\mu$$
+  <p>
+   The actual standard deviation is \(\sqrt{\mu}\), but this value is not known
+   to us, which is why \(\sqrt{\hat\mu}\) is the best estimate we have of the
+   standard deviation.
+  </p>
+  $$\boxed{ \text{Estimate of } \mu \rightarrow \hat{\mu} \text{ with standard standard deviation } \sqrt{\hat\mu}}$$
+  <h2>Relation between activity \(A\) and \(\mu\)</h2>
+  <p>
+   How does the activity of a radioactive sample relate to the average number of counts
+   \(\mu\) in a certain time \(T\)? The answer is quite simple: the activity is
+   just the average number of counts divided by the experiment time.
+  </p>
+  $$A = \frac{\mu}{T}$$
+  <p>An estimate of the activity can be obtained by estimating \(\mu\)</p>
+  $$\hat A = \frac{\hat \mu}{T}$$
+  <p>The standard deviation of this estimate is</p>
+  $$\sigma\{\hat A\} = \frac{\sigma\{\hat \mu\}}{T} = \frac{\sqrt{\hat \mu}}{T}
+  = \frac{\sqrt{\hat \mu}}{T} \frac{\sqrt{\hat \mu}}{\sqrt{\hat \mu}} =
+  \frac{\hat A}{\sqrt{\hat\mu}}$$
+  <p>The relative uncertainty on the activity \(A\) is then given by</p>
+  $$\boxed{\frac{\sigma\{{\hat A}\}}{\hat A} = \frac{1}{\sqrt{\hat\mu}}}$$
+  <p>
+   This is the \(\sqrt{N}\)-law. It shows that if we want to reduce the
+   uncertainty by a factor of 2, we need to measure 4 times more counts, meaning
+   that we have to increase the measurement time by a factor 4.
+  </p>
+ </body>
+</html>
