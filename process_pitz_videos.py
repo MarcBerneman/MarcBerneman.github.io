@@ -9,7 +9,7 @@ import urllib.request
 
 
 ROOT = pathlib.Path(__file__).resolve().parent
-INPUT_FILE = ROOT / "video.txt"
+INPUT_FILE = ROOT / "videos.txt"
 OUTPUT_FILE = ROOT / "videos_processed.json"
 
 
