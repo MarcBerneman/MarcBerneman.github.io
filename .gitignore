@@ -1,3 +1,4 @@
 old
 *.zip
 .idea
+.venv

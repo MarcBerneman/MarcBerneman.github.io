@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pitz</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4efe7;
+            --bg-accent: #e8ddcb;
+            --surface: rgba(255, 255, 255, 0.84);
+            --surface-strong: #ffffff;
+            --text: #1f1c17;
+            --muted: #6f675d;
+            --accent: #8d5b2d;
+            --accent-strong: #b56a2a;
+            --border: rgba(67, 50, 34, 0.12);
+            --shadow: 0 18px 50px rgba(59, 43, 25, 0.12);
+            --radius: 28px;
+            --max-width: 1120px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(181, 106, 42, 0.22), transparent 33%),
+                radial-gradient(circle at 85% 15%, rgba(141, 91, 45, 0.18), transparent 24%),
+                linear-gradient(180deg, var(--bg) 0%, #f8f3ea 45%, #efe5d5 100%);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 85%);
+            opacity: 0.55;
+        }
+
+        main {
+            width: min(var(--max-width), calc(100% - 32px));
+            margin: 0 auto;
+            padding: 32px 0 56px;
+            position: relative;
+        }
+
+        .hero {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+            align-items: stretch;
+            margin-bottom: 28px;
+        }
+
+        .panel {
+            background: var(--surface);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .intro {
+            padding: 34px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(181, 106, 42, 0.1);
+            color: var(--accent);
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            margin: 0 0 14px;
+            font-size: clamp(3rem, 7vw, 5.2rem);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+        }
+
+        .lead {
+            margin: 0;
+            max-width: 58ch;
+            font-size: 1.08rem;
+            line-height: 1.75;
+            color: var(--muted);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button.primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #fff;
+            box-shadow: 0 14px 28px rgba(141, 91, 45, 0.24);
+        }
+
+        .button.secondary {
+            background: rgba(255, 255, 255, 0.74);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        section.block {
+            margin-top: 22px;
+            padding: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: end;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: clamp(1.65rem, 4vw, 2.3rem);
+            letter-spacing: -0.03em;
+        }
+
+        .section-header p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 56ch;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .featured-card {
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .featured-thumb {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: #d8c6b1;
+        }
+
+        .featured-content {
+            padding: 20px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .featured-card h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            line-height: 1.2;
+        }
+
+        .featured-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .featured-card .meta {
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .featured-card .watch-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            background: rgba(181, 106, 42, 0.1);
+            color: var(--accent-strong);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: start;
+            }
+        }
+
+        @media (max-width: 640px) {
+            main {
+                width: min(100% - 20px, var(--max-width));
+                padding-top: 16px;
+                padding-bottom: 28px;
+            }
+
+            .intro,
+            section.block {
+                padding: 22px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="hero">
+        <section class="panel intro" aria-labelledby="pitz-title">
+            <div class="eyebrow">Pitz archive</div>
+            <h1 id="pitz-title">🐶 Pitz in motion</h1>
+            <p class="lead">A dedicated page for the Sir Pitzaford, 3rd of his name, obtainer of treats.</p>
+            <div class="actions">
+                <a class="button primary" href="#featured-videos">See featured videos</a>
+                <a class="button secondary" href="https://www.youtube.com/playlist?list=PLWf0nKwYgsWc" target="_blank" rel="noopener noreferrer">Open on YouTube</a>
+            </div>
+        </section>
+    </div>
+
+    <section class="panel block" id="featured-videos" aria-labelledby="featured-title">
+        <div class="section-header">
+            <div>
+                <h2 id="featured-title">Featured moments</h2>
+            </div>
+        </div>
+
+        <div class="featured-grid" id="featured-grid" aria-live="polite"></div>
+
+        <div class="actions" style="margin-top: 22px;">
+            <a class="button secondary" href="https://www.youtube.com/playlist?list=PLWf0nKwYgsWc" target="_blank" rel="noopener noreferrer">Open full playlist</a>
+        </div>
+    </section>
+</main>
+
+<script>
+    function renderVideos(videoEntries) {
+        const grid = document.getElementById("featured-grid");
+
+        if (!grid) {
+            return;
+        }
+
+        grid.innerHTML = "";
+
+        if (!videoEntries.length) {
+            grid.innerHTML = '<p class="lead">Run <strong>process_pitz_videos.py</strong> after adding IDs to <strong>video.txt</strong>.</p>';
+            return;
+        }
+
+        videoEntries.forEach((entry, index) => {
+            const cleanId = entry.id.trim();
+
+            if (!cleanId) {
+                return;
+            }
+
+            const title = entry.title || `Featured moment ${index + 1}`;
+
+            const card = document.createElement("article");
+            card.className = "featured-card";
+            card.innerHTML = `
+                <img class="featured-thumb" src="https://img.youtube.com/vi/${cleanId}/hqdefault.jpg" alt="Pitz video thumbnail ${index + 1}">
+                <div class="featured-content">
+                    <div class="meta">Featured video ${index + 1}</div>
+                    <h3>${title}</h3>
+                    <a class="watch-link" href="https://www.youtube.com/watch?v=${cleanId}&list=PLWf0nKwYgsWc&index=${index + 1}" target="_blank" rel="noopener noreferrer">Watch video</a>
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+    }
+
+    fetch("videos_processed.json")
+        .then((response) => response.ok ? response.json() : Promise.reject(new Error("Processed video list not found")))
+        .then((videoEntries) => renderVideos(Array.isArray(videoEntries) ? videoEntries : []))
+        .catch(() => renderVideos([]));
+</script>
+</body>
+</html>
